@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 
-// const ImageFileController = require('../controllers/ImageFileController');
+const ImageFile = require('../models/ImageFileModel');
 const router = express.Router();
 
 // you might also want to set some limits: https://github.com/expressjs/multer#limits
@@ -25,26 +25,20 @@ router.post(
   '/upload',
   upload.single('file'),
   // 'file' is the name of the form field containing the image
-  function (req, res, next) {
+  async (req, res, next) => {
     // req.file is `file`
     // req.body will hold the text fields, if there were any
-    const tempPath = req.file.path;
-    const targetPath = path.join(__dirname, './uploads/image.png');
 
     console.log('Got a file!');
     console.log('tempPath', tempPath);
+
+    res.locals.imageDoc = await ImageFile.create({filename: req.file.path});
+
 
     return res.status(200).contentType('text/plain').end('File uploaded!');
 
 
 
-
-    // if (path.extname(req.file.originalname).toLowerCase() === '.png') {
-    //   fs.rename(tempPath, targetPath, (err) => {
-    //     if (err) return handleError(err, res);
-
-    //     return res.status(200).contentType('text/plain').end('File uploaded!');
-    //   });
     // } else {
     //   fs.unlink(tempPath, (err) => {
     //     if (err) return handleError(err, res);

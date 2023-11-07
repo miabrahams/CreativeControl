@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 
 const projectSchema = new Schema({
-  name:    { type: String },
+  title:   { type: String },
   assets:  [{ type: mongoose.Schema.Types.ObjectID, ref:'Asset'}],
 });
 
