@@ -39,16 +39,12 @@ router.post(
 
 
 
-    // } else {
-    //   fs.unlink(tempPath, (err) => {
-    //     if (err) return handleError(err, res);
-
-    //     res
-    //       .status(403)
-    //       .contentType('text/plain')
-    //       .end('Only .png files are allowed!');
-    //   });
-    // }
+    /*
+    fs.unlink(tempPath, (err) => {
+      if (err) return handleError(err, res);
+      res.status(403).contentType('text/plain').end('Only .png files are allowed!');
+      });
+    */
   }
 );
 

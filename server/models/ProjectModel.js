@@ -3,9 +3,10 @@ const Schema = mongoose.Schema;
 
 
 const projectSchema = new Schema({
-  title:   { type: String },
+  title:    { type: String, required: true },
+  status:   { type: {} },
   assets:  [{ type: mongoose.Schema.Types.ObjectID, ref:'Asset'}],
 });
 
 
-module.exports = mongoose.model('Client', clientSchema);
+module.exports = mongoose.model('Project', projectSchema);

@@ -3,19 +3,18 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const process = require('process');
-require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(cookieParser());
 
+const CONFIG = require('./config.js');
+require('dotenv').config();
+
 /* Mongoose setup*/
 const mongoose = require('mongoose');
-const mongoURI =
-  process.env.NODE_ENV === 'production'
-    ? 'mongodb://localhost/console_prod'
-    : 'mongodb://localhost/console_dev';
+const mongoURI = process.env.NODE_ENV === 'production' ? CONFIG.mongo_prod : CONFIG.mongo_dev;
 mongoose.connect(mongoURI);
 
 /* Image upload */

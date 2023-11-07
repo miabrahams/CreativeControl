@@ -29,6 +29,7 @@ sessionController.isLoggedIn = (req, res, next) => {
 };
 
 sessionController.isLoggedInTEST = (req, res, next) => {
+  const cookieId = req.cookies.ssid;
   next();
 }
 
