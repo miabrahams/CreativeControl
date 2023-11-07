@@ -5,6 +5,7 @@ const Project = require('../models/ProjectModel');
 
 router.post(
   '/:id',
+  // Validation
   async function (req, res) {
     const {title} = req.body;
     const projectDoc = Project.create({title});
@@ -15,6 +16,8 @@ router.post(
 
 // Get by ID
 router.get('/:id', async (req, res, next) => {
+  // For now: Public link, no validation required.
+  // Later: allow Users to toggle public/private.
   const {_id} = req.body;
   const projectDoc = await Project.findById(_id);
   if (projectDoc) {
@@ -23,8 +26,7 @@ router.get('/:id', async (req, res, next) => {
   else {
     res.sendStatus(404);
   }
-  }
-);
+});
 
 // EXPORT THE ROUTER
 module.exports = router;
