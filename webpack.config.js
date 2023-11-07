@@ -11,7 +11,7 @@ const config = {
   entry: './client/index.js',
   output: {
     path: path.join(__dirname, '/build'),
-    publicPath: '/build',
+    publicPath: '/',
     filename: 'bundle.js',
   },
 
@@ -21,7 +21,7 @@ const config = {
         template: 'client/index.html'
       }),
     new CleanWebpackPlugin({
-      protectWebpackAssets: false,
+      protectWebpackAssets: true,
       cleanAfterEveryBuildPatterns: ['*.LICENSE.txt']
     })
       // new MiniCssExtractPlugin()
@@ -59,6 +59,7 @@ const config = {
     // (Obviously we can't pass '/' as the route.)
     proxy: {
       '/api': 'http://localhost:3000',
+      '/image': 'http://localhost:3000',
     },
   },
 }
