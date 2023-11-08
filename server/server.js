@@ -68,6 +68,7 @@ app.use('/bundle.js', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../build/bundle.js'));
 });
 app.get('/', (req, res) => {
+  console.log('Getting main');
   return res.status(200).sendFile(path.join(__dirname, '../build/index.html'));
 });
 

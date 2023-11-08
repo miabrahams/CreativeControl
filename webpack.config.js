@@ -8,7 +8,7 @@ console.log('Production mode: ', process.env.NODE_ENV);
 console.log('path: ', __dirname);
 
 const config = {
-  entry: './client/index.js',
+  entry: './client/main.js',
   output: {
     path: path.join(__dirname, '/build'),
     publicPath: '/',
@@ -51,6 +51,8 @@ const config = {
   },
 
   devServer: {
+    // For React-Router
+    historyApiFallback: true,
     static: [
       {
         // Adding this directory would make devServer forward files on disk
