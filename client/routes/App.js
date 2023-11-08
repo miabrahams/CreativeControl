@@ -7,22 +7,10 @@ import {
   useNavigation,
   useSubmit,
 } from 'react-router-dom';
-import UserHeader from '../components/UserHeader';
+import ProjectNav from '../components/ProjectNav';
 import ProjectContainer from '../components/ProjectContainer';
 import TitleBar from '../components/TitleBar'
 
-let gameStore = [];
-
-
-/*
-
-    <div id="application">
-      <TitleBar/>
-      <UserHeader/>
-      <ProjectContainer/>
-    </div>
-
-*/
 
 import {getProjects, createProject} from '../api';
 
@@ -54,15 +42,13 @@ export default function App(props) {
 
   // Update search box value with the value of q from the url
   useEffect(() => { document.getElementById("q").value = q; }, [q]);
+
   return (
     <div id="createApp">
       <div id="sidebar">
         <h1>Projects</h1>
         <div>
-          <Form
-            id="search-form"
-            role="search"
-          >
+          <Form id="search-form" role="search" >
             <input
               id="q"
               className={searching ? "loading" : ""}
@@ -91,36 +77,11 @@ export default function App(props) {
             <button type="submit">New</button>
           </Form>
         </div>
-        <nav>
-          {projects.length ? (
-            <ul>
-              {projects.map((project) => (
-                <li key={project.id}>
-                  <NavLink
-                    to={`projects/${project.id}`}
-                    className={({ isActive, isPending }) =>
-                      isActive ? "active" : (isPending ? "pending" : "")
-                    }
-                  >
-                    {project.first || project.last ? (
-                       `${project.first} ${project.last}`
-                    ) : ( <i>No Name</i>)
-                    }
-                    {" "}
-                    {project.favorite && <span>★</span>}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>
-              <i>No projects</i>
-            </p>
-          )}
-        </nav>
+        <ProjectNav projects={projects} />
       </div>
-      <div id='detail'
-        className={navigation.state === "loading" ? "loading" : ""}><Outlet /></div>
+      <div id='detail' className={navigation.state === "loading" ? "loading" : ""}>
+        <Outlet />
+      </div>
     </div>
   )
 }

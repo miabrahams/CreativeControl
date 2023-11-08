@@ -2,6 +2,23 @@ import localforage from "localforage";
 import { matchSorter } from "match-sorter";
 import sortBy from "sort-by";
 
+
+const testProject = {
+  _id: 'projectID',
+  title: 'Snake',
+  assets: [
+    {
+    imageUrl: 'static/demo/00042-3158810176.jpeg',
+    comment: 'Many papercuts later...'
+    },
+    {
+    imageUrl: 'static/demo/S43254_0.jpg',
+    comment: 'Excited to start!'
+    }
+  ]
+}
+
+
 export async function getProjects(query) {
   await fakeNetwork(`getProjects:${query}`);
   let projects = await localforage.getItem("projects");
@@ -68,6 +85,6 @@ async function fakeNetwork(key) {
 
   fakeCache[key] = true;
   return new Promise(res => {
-    setTimeout(res, Math.random() * 800);
+    setTimeout(res, Math.random() * 100);
   });
 }

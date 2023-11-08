@@ -58,6 +58,12 @@ app.get('/console',
   res.sendFile(path.resolve(__dirname, '../client/secret.html'));
 });
 
+app.use('/static/demo',
+  // Control access to images
+  sessionController.validateLoginTest,
+  express.static(path.resolve(__dirname, '../demo_assets'))
+);
+
 /**
  * Static routes
  */

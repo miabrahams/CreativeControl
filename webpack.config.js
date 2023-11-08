@@ -65,7 +65,7 @@ const config = {
     // (Obviously we can't pass '/' as the route.)
     proxy: {
       '/api': 'http://localhost:3000',
-      '/image': 'http://localhost:3000',
+      '/static': 'http://localhost:3000',
     },
   },
 }
