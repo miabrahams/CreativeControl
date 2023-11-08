@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ProjectSidebar from './ProjectSidebar';
-import ProjectDisplay from './ProjectDisplay';
+// import ProjectDisplay from './ProjectDisplay';
 
 
 const ProjectContainer = (props) => {

@@ -8,7 +8,7 @@ let gameStore = [];
 
 function App(props) {
   return (
-    <div className="router">
+    <div id="application">
       <TitleBar/>
       <UserHeader/>
       <ProjectContainer/>
