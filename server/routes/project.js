@@ -13,6 +13,13 @@ router.post(
   }
 );
 
+router.patch(
+  '/:id/notes',
+  async function (req, res) {
+    const {_id} = req.body;
+    const projectDoc = await Project.findById(_id);
+  }
+)
 
 // Get by ID
 router.get('/:id', async (req, res, next) => {

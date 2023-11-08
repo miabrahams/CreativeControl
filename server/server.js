@@ -17,9 +17,14 @@ const mongoose = require('mongoose');
 const mongoURI = process.env.NODE_ENV === 'production' ? CONFIG.mongo_prod : CONFIG.mongo_dev;
 mongoose.connect(mongoURI);
 
-/* Image upload */
-const imageRouter = require('./routes/image.js');
-app.use('/image', imageRouter);
+/* Image upload: older */
+// const imageRouter = require('./routes/image.js');
+// app.use('/image', imageRouter);
+
+
+/* Image upload: by asset */
+const assetRouter = require('./routes/asset.js');
+app.use('/asset', assetRouter);
 
 // Temp
 app.get('/api/', (req, res) => {
@@ -31,6 +36,7 @@ app.get('/api/', (req, res) => {
 
 /* Signup and login */
 const sessionController = require('./controllers/sessionController');
+
 /*
 app.post(
   '/signup',
@@ -47,7 +53,7 @@ app.post(
  * Authorized routes
  */
 app.get('/console',
-  sessionController.isLoggedInTEST,
+  sessionController.validateLoginTest,
   (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/secret.html'));
 });
@@ -77,18 +83,18 @@ app.use('*', (req, res) => {
 /**
  * Global error handler
  */
-app.use((err, req, res, next) => {
-  let log = err;
-  let message = err;
-  let httpStatus = 500;
+function errorHandler (err, req, res, next) {
+  const defaultErr = {
+    log: 'Express error handler caught unknown middleware error',
+    status: 500,
+    message: { err: 'An error occurred' }
+  };
+  const errorObj = Object.assign(defaultErr, err);
+  console.log(errorObj.log);
+  res.status(errorObj.status).json(errorObj.message);
+}
+app.use(errorHandler);
 
-  if (typeof err === 'object') {
-    ({ log, message, httpStatus } = err);
-  }
-
-  console.log(log);
-  res.status(httpStatus).send({ error: message });
-});
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}...`);

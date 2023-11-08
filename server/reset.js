@@ -23,7 +23,15 @@ setTimeout( async () => {
   const newUser = await User.create({username: 'Test', password: 'Test', displayName: 'Creator', profilePic: '', projects: []});
   const newAsset = await Asset.create( {title: 'BalloonAsset'} );
   const newProject = await Project.create({title: 'Balloons', assets: [newAsset._id]});
+
+
+  const assetDoc = await Asset.findById(newAsset._id.toString());
+  console.log('assetDoc: ', assetDoc)
+  console.log('ID: ', assetDoc._id.toString());
+
   await mongoose.disconnect();
+
+
 }, 0);
 
 

@@ -6,7 +6,7 @@ const sessionController = {};
  * isLoggedIn - find the appropriate session for this request in the database, then
  * verify whether or not the session is still valid.
  */
-sessionController.isLoggedIn = (req, res, next) => {
+sessionController.validateLogin = (req, res, next) => {
   const newLocal = 'Checking for valid session';
   // write code here
   console.log(newLocal);
@@ -14,7 +14,6 @@ sessionController.isLoggedIn = (req, res, next) => {
   Session.findOne({ cookieId }).then((session) => {
     if (session !== null) {
       // Pull Github token from session if available
-      // Then return
       console.log('Valid session!');
       if (session.OAuth.token) {
         console.log('Valid OAuth Token!');
@@ -28,21 +27,20 @@ sessionController.isLoggedIn = (req, res, next) => {
   });
 };
 
-sessionController.isLoggedInTEST = (req, res, next) => {
-  const cookieId = req.cookies.ssid;
+sessionController.validateLoginTest = (req, res, next) => {
+  res.locals.userId = req.cookies.ssid;
   next();
 }
 
 /**
  * startSession - create and save a new Session into the database.
  */
-
 sessionController.startSession = (req, res, next) => {
   const cookieId = res.locals.userId;
   // For upsert, you need to include a query like find() as well as additional properties to update
 
   // For an OAuth user, store their OAuth token in the Session data
-  // For a normal user, store no info there.$
+  // For a normal user, store no info there.
 
   const OAuth = { token: null, type: null };
   if (res.locals.access_token) {

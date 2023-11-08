@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 
 const userController = {};
 
-function badPassword(pw) { return !pw || typeof pw !== 'string' || pw.length < 3; }
 
 /**
  * getAllUsers - retrieve all users from the database and stores it into res.locals
@@ -21,6 +20,8 @@ userController.getAllUsers = (req, res, next) => {
     return next();
   });
 };
+
+function badPassword(pw) { return !pw || typeof pw !== 'string' || pw.length < 3; }
 
 /**
  * createUser - create and save a new User into the database.

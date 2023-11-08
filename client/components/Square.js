@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Square = (props) => {
   const { handleClick, letter, row, square } = props;
 
-  return (
+return (
     <div className="square" onClick={() => {handleClick(row, square)}}>{letter}</div>
   );
 };
