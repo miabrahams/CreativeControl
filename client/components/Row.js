@@ -14,10 +14,12 @@ const Row = (props) => {
   );
 };
 
+/*
 Row.propTypes = {
   letters: PropTypes.arrayOf(PropTypes.string).isRequired,
   handleClick: PropTypes.func.isRequired,
   row: PropTypes.number.isRequired,
 };
+*/
 
 export default Row;

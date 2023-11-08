@@ -1,12 +1,15 @@
 import React from 'react';
 
 
-export default UserHeader = (props) => {
+const UserHeader = (props) => {
   return (
-    <div className='userHeader'>
+    <div className='user-header'>
       <button id='Deliver'>Deliver</button>
       <button id='AddImage'>Add Image</button>
       <button id='DeleteProject'>Delete</button>
     </div>
   );
 }
+
+
+export default UserHeader

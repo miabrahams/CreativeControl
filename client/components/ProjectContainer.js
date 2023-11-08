@@ -1,7 +1,10 @@
 import React from 'react';
 
+import ProjectSidebar from './ProjectSidebar';
+import ProjectDisplay from './ProjectDisplay';
 
-export default ProjectContainer = (props) => {
+
+const ProjectContainer = (props) => {
 
   const handleClick = (row, square) => {
     let { turn, winner } = this.state;
@@ -23,10 +26,12 @@ export default ProjectContainer = (props) => {
   }
 
   return (
-    <div className='projectContainer'>
+    <div className='project-container'>
       <ProjectSidebar/>
-      <ProjectDisplay/>
+{/*       <ProjectDisplay/> */}
     </div>
   )
 
 }
+
+export default ProjectContainer;
