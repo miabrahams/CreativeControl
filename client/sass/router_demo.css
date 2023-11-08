@@ -61,27 +61,27 @@ button:active {
   transform: translateY(1px);
 }
 
-#contact h1 {
+#asset h1 {
   display: flex;
   align-items: flex-start;
   gap: 1rem;
 }
-#contact h1 form {
+#asset h1 form {
   display: flex;
   align-items: center;
   margin-top: 0.25rem;
 }
-#contact h1 form button {
+#asset h1 form button {
   box-shadow: none;
   font-size: 1.5rem;
   font-weight: 400;
   padding: 0;
 }
-#contact h1 form button[value="true"] {
+#asset h1 form button[value="true"] {
   color: #a4a4a4;
 }
-#contact h1 form button[value="true"]:hover,
-#contact h1 form button[value="false"] {
+#asset h1 form button[value="true"]:hover,
+#asset h1 form button[value="false"] {
   color: #eeb004;
 }
 
@@ -255,42 +255,50 @@ i {
   transition-delay: 200ms;
 }
 
-#contact {
+#project {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 6px;
+
+}
+
+#asset {
   max-width: 40rem;
   display: flex;
 }
 
-#contact h1 {
+#asset h1 {
   font-size: 2rem;
   font-weight: 700;
   margin: 0;
   line-height: 1.2;
 }
 
-#contact h1 + p {
+#asset h1 + p {
   margin: 0;
 }
 
-#contact h1 + p + p {
+#asset h1 + p + p {
   white-space: break-spaces;
 }
 
-#contact h1:focus {
+#asset h1:focus {
   outline: none;
   color: hsl(224, 98%, 58%);
 }
 
-#contact a[href*="twitter"] {
+#asset a[href*="twitter"] {
   display: flex;
   font-size: 1.5rem;
   color: #3992ff;
   text-decoration: none;
 }
-#contact a[href*="twitter"]:hover {
+#asset a[href*="twitter"]:hover {
   text-decoration: underline;
 }
 
-#contact img {
+#asset img {
   width: 12rem;
   height: 12rem;
   background: #c8c8c8;
@@ -299,7 +307,7 @@ i {
   object-fit: cover;
 }
 
-#contact h1 ~ div {
+#asset h1 ~ div {
   display: flex;
   gap: 0.5rem;
   margin: 1rem 0;

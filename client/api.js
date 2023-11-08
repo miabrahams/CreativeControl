@@ -3,19 +3,39 @@ import { matchSorter } from "match-sorter";
 import sortBy from "sort-by";
 
 
-const testProject = {
-  _id: 'projectID',
-  title: 'Snake',
-  assets: [
-    {
-    imageUrl: 'static/demo/00042-3158810176.jpeg',
-    comment: 'Many papercuts later...'
-    },
-    {
-    imageUrl: 'static/demo/S43254_0.jpg',
-    comment: 'Excited to start!'
-    }
-  ]
+// cache so we don't slow down stuff we've already seen
+let reqCache = {};
+
+async function cachedFetch(key) {
+
+  console.log('cachedFetch')
+  if (reqCache[key]) {
+    return reqCache[key];
+  }
+
+  try {
+    const res = await fetch(key);
+    const data = await res.json();
+    reqCache[key] = data;
+    return data;
+  }
+  catch(err) {
+    console.log('Invalid project!');
+    return null;
+  }
+}
+
+async function fakeNetwork(query) {
+  return new Promise((res) => {
+    setTimeout(res, 100)
+  });
+}
+
+
+export async function getProject(id) {
+  console.log('Getting project')
+  const data = await cachedFetch(`/api/project/${id}`);
+  return data;
 }
 
 
@@ -37,13 +57,6 @@ export async function createProject() {
   projects.unshift(project);
   await set(projects);
   return project;
-}
-
-export async function getProject(id) {
-  await fakeNetwork(`project:${id}`);
-  let projects = await localforage.getItem("projects");
-  let project = projects.find(project => project.id === id);
-  return project ?? null;
 }
 
 export async function updateProject(id, updates) {
@@ -69,22 +82,4 @@ export async function deleteProject(id) {
 
 function set(projects) {
   return localforage.setItem("projects", projects);
-}
-
-// fake a cache so we don't slow down stuff we've already seen
-let fakeCache = {};
-
-async function fakeNetwork(key) {
-  if (!key) {
-    fakeCache = {};
-  }
-
-  if (fakeCache[key]) {
-    return;
-  }
-
-  fakeCache[key] = true;
-  return new Promise(res => {
-    setTimeout(res, Math.random() * 100);
-  });
 }

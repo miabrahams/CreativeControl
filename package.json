@@ -7,7 +7,7 @@
     "start": "node server/server.js",
     "build": "NODE_ENV=production webpack",
     "prod": "NODE_ENV=production webpack ; NODE_ENV=production node server/server.js",
-    "dev": "NODE_ENV=development webpack serve --open & NODE_ENV=development nodemon server/server.js",
+    "dev": "NODE_ENV=development webpack serve --open & nodemon server/server.js",
     "clean": "rm temp/image_store/*",
     "reset": "rm temp/image_store/*; node server/reset.js"
   },

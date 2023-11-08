@@ -26,10 +26,12 @@ mongoose.connect(mongoURI);
 const assetRouter = require('./routes/asset.js');
 app.use('/asset', assetRouter);
 
-// Temp
-app.get('/api/', (req, res) => {
-  return res.status(200).json({ code: '✨✨✨' });
-});
+// Projects
+const projectRoute = require('./routes/project.js');
+app.use('/api/project', projectRoute);
+
+
+
 
 
 
@@ -58,11 +60,6 @@ app.get('/console',
   res.sendFile(path.resolve(__dirname, '../client/secret.html'));
 });
 
-app.use('/static/demo',
-  // Control access to images
-  sessionController.validateLoginTest,
-  express.static(path.resolve(__dirname, '../demo_assets'))
-);
 
 /**
  * Static routes
@@ -77,6 +74,14 @@ app.get('/', (req, res) => {
   console.log('Getting main');
   return res.status(200).sendFile(path.join(__dirname, '../build/index.html'));
 });
+
+
+app.use('/static',
+  // Control access to images
+  sessionController.validateLoginTest,
+  express.static(path.resolve(__dirname, '../static'))
+);
+
 
 // }
 

@@ -10,6 +10,8 @@ import { getProject, updateProject } from "../api";
 
 // Will be hooked into useLoaderData in main.js
 export async function projectLoader({ params }) {
+  // return new Promise((res) => {return res(testProject)});
+
   // We can Throw in a loader to render a 404 element instead of an entirely invalid page.
   const project = await getProject(params.projectId);
   if (!project) {
@@ -18,8 +20,12 @@ export async function projectLoader({ params }) {
       statusText: "Not Found",
     });
   }
-  return { project };
+  return project;
 }
+
+
+
+
 
 // Hooked into favorite
 export async function updateAction({ request, params }) {
@@ -29,42 +35,51 @@ export async function updateAction({ request, params }) {
   })
 }
 
-export default function Contact() {
-  const { project } = useLoaderData();
+export default function Project() {
+  const project = useLoaderData();
 
   return (
-    <div id="contact">
+    <div id="project">
+      <h1>
+        {project.title ?
+          ( <> {project.title} </>) :
+          ( <i>Untitled Project</i>)
+        }{" "}
+      </h1>
+      { project.assets.map( data => <Asset id={data._id} data={data}/>) }
+    </div>
+  );
+}
+
+
+function Asset({ data }) {
+  return (
+    <article id='asset'>
       <div>
-        <img
-          key={project.avatar}
-          src={project.avatar || null}
-        />
+        <img src={'/' + data.imageUrl || null} />
       </div>
 
       <div>
-        <h1>
-          {project.first || project.last ? (
-            <>
-              {project.first} {project.last}
-            </>
-          ) : (
-            <i>No Name</i>
-          )}{" "}
-          <Favorite contact={project} />
-        </h1>
 
-        {project.twitter && (
+        <h1>
+          {data.title ?
+            ( <> {data.title} </>) :
+            ( <i>Untitled Project</i>)
+          }{" "}
+          <Favorite contact={data} />
+        </h1>
+        {data.twitter && (
           <p>
             <a
               target="_blank"
-              href={`https://twitter.com/${project.twitter}`}
+              href={`https://twitter.com/${data.twitter}`}
             >
-              {project.twitter}
+              {data.twitter}
             </a>
           </p>
         )}
 
-        {project.notes && <p>{project.notes}</p>}
+        {data.notes && <p>{data.notes}</p>}
 
         <div>
           <Form action="edit">
@@ -74,11 +89,7 @@ export default function Contact() {
             method="post"
             action="destroy"
             onSubmit={(event) => {
-              if (
-                !confirm(
-                  "Please confirm you want to delete this record."
-                )
-              ) {
+              if ( !confirm( "Please confirm you want to delete this record.")) {
                 event.preventDefault();
               }
             }}
@@ -87,9 +98,10 @@ export default function Contact() {
           </Form>
         </div>
       </div>
-    </div>
-  );
-}
+    </article>
+  )
+};
+
 
 function Favorite({ contact }) {
   // yes, this is a `let` for later
