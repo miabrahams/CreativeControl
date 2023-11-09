@@ -36,7 +36,6 @@ export async function getProject(id) {
 
 
 export async function getProjects(query) {
-
   const data = await cachedFetch('/api/project/list');
   console.log('Project list: ', data);
   return data;
@@ -64,6 +63,21 @@ export async function updateAsset(projectId, assetId, updates) {
   console.log('Result: ', res);
   return res;
 }
+
+export async function updateProject(projectId, updates) {
+  console.log('Updating project: ', updates);
+  const patchUrl = `/api/project/changeTitle/${projectId}`;
+  const res = await fetch(patchUrl,
+    {
+      headers: { "Content-Type": "application/json"},
+      method: 'PATCH',
+      body: updates
+  });
+  console.log('Result: ', res);
+  return res;
+}
+
+
 
 export async function createProject() {
   const res = await fetch('/api/project/create',

@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { FileDrop } from "react-file-drop";
 import Popup from 'reactjs-popup';
+import TitleBar from '../components/TitleBar';
 
 
 import { getProject, clearCache, updateAsset } from "../api";
@@ -55,7 +56,7 @@ export default function Project() {
     if (extension !== undefined) {
       const uploadForm = new FormData();
       uploadForm.append('img', files[0]);
-      uploadForm.append('title', '');
+      uploadForm.append('title', `Step ${project.assets.length+1}`);
       // Todo: put in api.js
       fetch(`/api/project/${project._id}/addAsset`,
       {
@@ -78,12 +79,8 @@ export default function Project() {
   return (
     <div id="project">
 
-        <h1>
-          {project.title ?
-            ( <> <b>Project: </b>{project.title} </>) :
-            ( <i>Untitled Project</i>)
-          }{" "}
-        </h1>
+        <TitleBar project={project} revalidator={revalidator}/>
+
         { project.assets.map( data => <Asset data={data} id={data._id} />) }
 
       <FileDrop onTargetClick={filePicker} onDrop={(f) => fileHandler(f)}>
@@ -109,19 +106,16 @@ export default function Project() {
 // Each Asset
 function Asset({ data, projectId }) {
 
-  const fetcher = useFetcher();
+  // const fetcher = useFetcher();
+  console.log('Asset data: ', data);
 
   /*
   React.useEffect(() => {
     console.log('Fetcher');
   }, [fetcher]);
   */
-
-
-
   return (
     <article className='asset'>
-
       <div className='assetHead'>
         <div className="evenSpacer"></div>
         <div className="evenSpacer">
@@ -161,7 +155,7 @@ function Asset({ data, projectId }) {
           <img src={'/' + data.imageUrls[0]} className='popup-image' />
       </Popup>
 
-      <fetcher.Form className='commentForm'
+      <Form className='commentForm'
         method='post'
         // action='updateComment'
       >
@@ -170,7 +164,7 @@ function Asset({ data, projectId }) {
           // onChange={e => console.log('Textarea changed')}
           onBlur={e => updateAssetNote(projectId, data._id, e.target.value)}
         />
-      </fetcher.Form>
+      </Form>
 
       {data.twitter && (
         <p>

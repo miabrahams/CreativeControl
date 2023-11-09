@@ -44,12 +44,6 @@ export default function App(props) {
   }, [q]);
 
 
-  // useDropzone stuff
-  /*
-  const handleDrop = (e) => { console.dir(e); e.preventDefault(); e.stopPropagation(); console.log("Drop!"); }
-  const stopEvent = (e) => { console.dir(e); e.preventDefault();  e.stopPropagation(); console.log('Stopped')};
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({handleDrop});
-  */
 
   return (
     <div id="createApp">

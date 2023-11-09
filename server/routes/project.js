@@ -11,10 +11,6 @@ const projectController = require('../controllers/projectController');
 
 router.post(
   '/:projectId/addAsset',
-  async (req, res, next) => {
-    console.log('got here');
-    next();
-  },
   sessionController.validateLoginTest,
   imageFileController.upload.single('img'),
   imageFileController.loadImage,
@@ -73,11 +69,22 @@ router.post(
 );
 
 
-
 router.patch(
   '/:id/notes',
   async function (req, res) { const {_id} = req.body; const projectDoc = await Project.findById(_id); }
 )
+
+router.patch(
+  '/changeTitle/:projectId',
+  sessionController.validateLoginTest,
+  projectController.patchProject,
+  async (req, res) => {
+    console.log('Finished');
+    return res.status(200).json(res.locals.editResult);
+  }
+);
+
+
 
 // Get by ID
 router.get('/sparkle', (req, res) => {

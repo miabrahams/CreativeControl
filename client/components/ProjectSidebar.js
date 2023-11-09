@@ -7,11 +7,16 @@ import {
 import ProjectNav from '../components/ProjectNav';
 
 const ProjectSidebar = ({projects, q, searching}) => {
+  // Do this better...
+  let filteredProjects = projects;
+  if (q) {
+    filteredProjects = projects.filter((p) => (p.title.includes(q)));
+  }
   // On type/on save
   const submit = useSubmit();
   return (
   <div id="sidebar">
-    <h1>Projects</h1>
+    <h1>Creative Control</h1>
     <div>
       <Form id="search-form" role="search" >
         <input
@@ -42,7 +47,7 @@ const ProjectSidebar = ({projects, q, searching}) => {
         <button type="submit">New</button>
       </Form>
     </div>
-    <ProjectNav projects={projects} />
+    <ProjectNav projects={filteredProjects} />
   </div>
   );
 }

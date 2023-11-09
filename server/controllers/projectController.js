@@ -22,6 +22,23 @@ ProjectController.addAsset = async (req, res, next) => {
 }
 
 
+ProjectController.patchProject = async (req, res, next) => {
+
+  console.log('Patching project: ', req.params.projectId);
+  console.log('body: ', req.body);
+
+  console.log('Updates: ', req.body);
+  res.locals.editResult = await Project.updateOne({_id: req.params.projectId}, req.body).exec();
+  if (!res.locals.editResult) {
+    next({err: 'Could not edit project.'});
+  }
+  // console.log('Edit result: ', res.locals.editResult);
+  console.log('Edit result finished')
+  next();
+};
+
+
+
 ProjectController.removeAsset = async (req, res, next) => {
   // Hopefully we could query doc already?
   // Requires assetDoc to exist
