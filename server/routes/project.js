@@ -11,6 +11,10 @@ const projectController = require('../controllers/projectController');
 
 router.post(
   '/:projectId/addAsset',
+  async (req, res, next) => {
+    console.log('got here');
+    next();
+  },
   sessionController.validateLoginTest,
   imageFileController.upload.single('img'),
   imageFileController.loadImage,
@@ -121,7 +125,7 @@ router.get('/:id', async (req, res) => {
 
       return res.status(200).json(transformedProject);
     } else {
-      console.log("Unknown project: ", _id);
+      console.log("Unknown project: ", req.params.id);
       return res.sendStatus(404);
     }
   } catch (err) {

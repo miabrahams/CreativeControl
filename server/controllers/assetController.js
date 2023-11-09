@@ -24,7 +24,7 @@ AssetController.addImage = async (req, res, next) => {
 AssetController.createAsset = async (req, res, next) => {
   // Validate user:
   // NOT IMPLEMENTED //
-  const title = res.locals.assetTitle | '';
+  const title = req.body.title || '';
   const imageFiles = res.locals.imageDoc ? [res.locals.imageDoc] : []
   res.locals.assetDoc = await Asset.create({ title, imageFiles });
   next();

@@ -8,6 +8,8 @@ import {
   useRevalidator
 } from "react-router-dom";
 import { FileDrop } from "react-file-drop";
+import Popup from 'reactjs-popup';
+
 
 import { getProject, clearCache, updateAsset } from "../api";
 
@@ -23,13 +25,6 @@ export async function projectLoader({ params }) {
 // Hooked into favorite
 export async function updateAction({ request, params }) {
   console.log('Not implemented.')
-  /*
-  let formData = await request.formData();
-  console.log('formData: ', formData);
-  return updateProject(params.projectId, {
-    favorite: formData.get("favorite") === "true",
-  })
-  */
 }
 
 async function updateAssetNote(projectId, actionId, notes ) {
@@ -47,7 +42,6 @@ async function updateAssetNote(projectId, actionId, notes ) {
 export default function Project() {
   const project = useLoaderData();
   const inputRef = useRef();
-  // console.log('Rendering project: ', project);
   const revalidator = useRevalidator();
 
   const filePicker = () => { inputRef.current.click(); };
@@ -61,10 +55,12 @@ export default function Project() {
     if (extension !== undefined) {
       const uploadForm = new FormData();
       uploadForm.append('img', files[0]);
+      uploadForm.append('title', '');
+      // Todo: put in api.js
       fetch(`/api/project/${project._id}/addAsset`,
       {
-        body: uploadForm,
-        method: "post"
+        method: "post",
+        body: uploadForm
       }).then(res => {
         console.log('Got response: ', res)
         clearCache();
@@ -156,10 +152,14 @@ function Asset({ data, projectId }) {
         </div>
       </div>
 
-
-      <div>
-        <img src={'/' + data.imageUrls[0] || null} />
-      </div>
+      <Popup modal trigger=
+        {
+          <div>
+            <img src={'/' + data.imageUrls[0] || null} />
+          </div>
+        }>
+          <img src={'/' + data.imageUrls[0]} className='popup-image' />
+      </Popup>
 
       <fetcher.Form className='commentForm'
         method='post'

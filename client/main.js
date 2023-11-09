@@ -5,6 +5,7 @@ console.log('Booting!')
 
 
 
+import 'reactjs-popup/dist/index.css';
 // import styles from './sass/app.scss';
 import styles from './sass/router_demo.scss';
 

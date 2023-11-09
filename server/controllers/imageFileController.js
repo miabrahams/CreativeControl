@@ -27,11 +27,12 @@ ImageFileController.uploadSingle = upload.single('file');
  */
 
 ImageFileController.loadImage = async (req, res, next) => {
-    console.log("FILE?", req.file);
-    // console.log()
-    res.locals.imageDoc = await ImageFile.create({filename: file_serve_path + '/' + req.file.filename});
-    console.log('imageDoc: ', res.locals.imageDoc);
-    next();
+  console.log('multer body: ', req.body);
+  console.log("FILE:", req.file);
+  // console.log()
+  res.locals.imageDoc = await ImageFile.create({filename: file_serve_path + '/' + req.file.filename});
+  console.log('imageDoc: ', res.locals.imageDoc);
+  next();
 }
 
 ImageFileController.deleteImage = async(req, res, next) => {
