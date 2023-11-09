@@ -37,6 +37,7 @@ export async function updateAction({ request, params }) {
 export default function Project() {
   const project = useLoaderData();
   const inputRef = useRef();
+  console.log('Rendering project: ', project);
 
   const filePicker = () => { inputRef.current.click(); };
 
@@ -107,7 +108,7 @@ function Asset({ data }) {
 
   // TODO: Throttle
   const textChanged = (event) => { setCommentText(event.target.value); }
-  const comment = commentText ? commentText : data.comment;
+  const comment = commentText ? commentText : data.notes;
 
 
   return (
@@ -145,7 +146,7 @@ function Asset({ data }) {
 
 
       <div>
-        <img src={'/' + data.imageUrl || null} />
+        <img src={'/' + data.imageUrls[0] || null} />
       </div>
 
       <fetcher.Form className='commentForm'

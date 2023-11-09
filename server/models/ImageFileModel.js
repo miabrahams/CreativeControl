@@ -8,15 +8,18 @@ const imageFileSchema = new Schema({
 
 
 // Handle file removal
-/*
 imageFileSchema.post('remove', function () {
-  console.log('deleting one: ', doc)
-  fs.unlink(this.filename, (err) => {
-    if (err) return console.log('****ERROR: Could not unlink file!');
-  });
-});
-*/
+  console.log('File removal: ', this.filename);
 
+  if (!this.filename.includes('static')) {
+    console.log('deleting image', doc)
+    fs.unlink(this.filename, (err) => {
+      if (err) return console.log('****ERROR: Could not unlink file!');
+    });
+  }
+});
+
+// removeMany?
 
 
 module.exports = mongoose.model('ImageFile', imageFileSchema);

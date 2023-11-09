@@ -4,8 +4,7 @@ import {
   NavLink,
 } from 'react-router-dom';
 
-export default function ProjectNav({projects, }) {
-
+export default function ProjectNav({projects}) {
   return (
     <nav>
       {
@@ -13,18 +12,14 @@ export default function ProjectNav({projects, }) {
         <ul>
           {
           projects.map((project) => (
-            <li key={project.id}>
+            <li key={project._id}>
               <NavLink
-                to={`projects/${project.id}`}
+                to={`projects/${project._id}`}
                 className={({ isActive, isPending }) =>
                   isActive ? "active" : (isPending ? "pending" : "")
                 }
               >
-                {project.first || project.last ? (
-                    `${project.first} ${project.last}`
-                ) : ( <i>No Name</i>)
-                }
-                {" "}
+                {project.title ? project.title: <i>No Name</i>}
                 {project.favorite && <span>★</span>}
               </NavLink>
             </li>

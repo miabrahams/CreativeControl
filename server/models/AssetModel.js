@@ -7,7 +7,7 @@ const assetSchema = new Schema({
   createdAt:  { type: Date, default: Date.now },
   updatedAt:  { type: Date, default: Date.now },
   imageFiles: [{ type: mongoose.Schema.Types.ObjectID, ref:'ImageFile'}],
-  extraImageURLs: [{type: String}],
+  // extraImageURLs: [{type: String}],
 });
 
 

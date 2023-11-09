@@ -8,12 +8,13 @@ let reqCache = {};
 
 async function cachedFetch(key) {
 
-  console.log('cachedFetch')
+  console.log(`cachedFetch ${key}`)
   if (reqCache[key]) {
     return reqCache[key];
   }
 
   try {
+    console.log('Fetching...')
     const res = await fetch(key);
     const data = await res.json();
     reqCache[key] = data;
@@ -40,13 +41,10 @@ export async function getProject(id) {
 
 
 export async function getProjects(query) {
-  await fakeNetwork(`getProjects:${query}`);
-  let projects = await localforage.getItem("projects");
-  if (!projects) projects = [];
-  if (query) {
-    projects = matchSorter(projects, query, { keys: ["first", "last"] });
-  }
-  return projects.sort(sortBy("last", "createdAt"));
+
+  const data = await cachedFetch('/api/project/list');
+  console.log('Project list: ', data);
+  return data;
 }
 
 export async function createProject() {
