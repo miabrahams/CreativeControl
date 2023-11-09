@@ -61,27 +61,27 @@ button:active {
   transform: translateY(1px);
 }
 
-#asset h1 {
+.asset h1 {
   display: flex;
   align-items: flex-start;
   gap: 1rem;
 }
-#asset h1 form {
+.asset h1 form {
   display: flex;
   align-items: center;
   margin-top: 0.25rem;
 }
-#asset h1 form button {
+.asset h1 form button {
   box-shadow: none;
   font-size: 1.5rem;
   font-weight: 400;
   padding: 0;
 }
-#asset h1 form button[value="true"] {
+.asset h1 form button[value="true"] {
   color: #a4a4a4;
 }
-#asset h1 form button[value="true"]:hover,
-#asset h1 form button[value="false"] {
+.asset h1 form button[value="true"]:hover,
+.asset h1 form button[value="false"] {
   color: #eeb004;
 }
 
@@ -243,13 +243,14 @@ i {
   color: hsl(224, 98%, 58%);
 }
 
-#detail {
+#view {
   flex: 1;
   padding: 2rem 4rem;
   width: 100%;
+  overflow-y:auto;
 }
 
-#detail.loading {
+#view.loading {
   opacity: 0.25;
   transition: opacity 200ms;
   transition-delay: 200ms;
@@ -260,58 +261,133 @@ i {
   flex-direction: column;
   width: 100%;
   gap: 6px;
-
 }
 
-#asset {
+.evenSpacer {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 0;
+}
+
+.asset {
   max-width: 40rem;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgb(208, 208, 208);
+  border-radius: 12px;
+  padding: 4px;
 }
 
-#asset h1 {
+.asset .assetHead {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.asset h1 {
   font-size: 2rem;
   font-weight: 700;
   margin: 0;
-  line-height: 1.2;
 }
 
-#asset h1 + p {
+.asset h1 + p {
   margin: 0;
 }
 
-#asset h1 + p + p {
+.asset h1 + p + p {
   white-space: break-spaces;
 }
 
-#asset h1:focus {
+.asset h1:focus {
   outline: none;
   color: hsl(224, 98%, 58%);
 }
 
-#asset a[href*="twitter"] {
+.asset a[href*="twitter"] {
   display: flex;
   font-size: 1.5rem;
   color: #3992ff;
   text-decoration: none;
 }
-#asset a[href*="twitter"]:hover {
+.asset a[href*="twitter"]:hover {
   text-decoration: underline;
 }
 
-#asset img {
-  width: 12rem;
-  height: 12rem;
-  background: #c8c8c8;
-  margin-right: 2rem;
-  border-radius: 1.5rem;
-  object-fit: cover;
+.asset .commentForm {
+  width: 60%;
 }
 
-#asset h1 ~ div {
+.asset .commentform textarea {
+  width: 100%;
+  height: 3lh;
+}
+
+.asset img {
+  width: 16rem;
+  height: 16rem;
+  background: #c8c8c876;
+  margin: .25rem;
+  border-radius: 1.5rem;
+  object-fit: contain;
+}
+
+.asset h1 ~ div {
   display: flex;
   gap: 0.5rem;
   margin: 1rem 0;
 }
+
+
+.file-drop {
+  width: 100%;
+  height: 200px;
+  height: 210px;
+  border-radius: 20px;
+  filter: drop-shadow(0px 4px 3px rgba(51, 46, 58, 0.1));
+  margin-top: auto;
+  border: 1px dashed #688ee8;
+}
+
+.file-drop .file-drop-target {
+  height: 100%;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  flex-direction: column;
+}
+
+.file-drop-target .file-drop-dragging-over-target {
+  opacity: 0.3;
+}
+
+input[type="file"] {
+  width: 0;
+  height: 0;
+}
+
+.file-drop-target .placeholder {
+  font-size: 14px;
+  letter-spacing: 3px;
+  line-height: 26px;
+  color: #3d4852;
+  font-weight: 400;
+  /* font-family: "Montserrat"; */
+  text-align: center;
+}
+
+.file-drop-target span {
+    color: #688ee8;
+    cursor: pointer;
+  }
+
+
 
 #contact-form {
   display: flex;

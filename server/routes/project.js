@@ -3,8 +3,12 @@ const express = require('express');
 const router = express.Router();
 const Project = require('../models/ProjectModel');
 
+const imageFileController = require('../controllers/imageFileController');
+const assetController = require('../controllers/assetController');
+const sessionController = require('../controllers/sessionController');
+
 router.post(
-  '/:id',
+  '/:projectId',
   // Validation
   async function (req, res) {
     const {title} = req.body;
@@ -12,6 +16,20 @@ router.post(
     return res.status(200).contentType('text/plain').end('Project created!');
   }
 );
+
+
+router.post(
+  '/:projectId/addAsset',
+  sessionController.validateLoginTest,
+  imageFileController.upload.single('img'),
+  imageFileController.loadImage,
+  assetController.createAsset,
+  assetController.addImage,
+  async (req, res) => {
+    return res.status(200).contentType('text/plain').end();
+  }
+);
+
 
 router.patch(
   '/:id/notes',

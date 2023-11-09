@@ -6,6 +6,8 @@ import {
 } from 'react-router-dom';
 import ProjectSidebar from '../components/ProjectSidebar';
 
+// import {useDropzone} from 'react-dropzone'
+
 
 import {getProjects, createProject} from '../api';
 
@@ -38,12 +40,36 @@ export default function App(props) {
     document.getElementById("q").value = q;
   }, [q]);
 
+
+  // useDropzone stuff
+  /*
+  const handleDrop = (e) => { console.dir(e); e.preventDefault(); e.stopPropagation(); console.log("Drop!"); }
+  const stopEvent = (e) => { console.dir(e); e.preventDefault();  e.stopPropagation(); console.log('Stopped')};
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({handleDrop});
+  */
+
   return (
     <div id="createApp">
       <ProjectSidebar projects={projects} q={q} searching={searching}/>
-      <div id='detail' className={navigation.state === "loading" ? "loading" : ""}>
+      <div
+        id='view'
+        className={navigation.state === "loading" ? "loading" : ""}
+        // {...rootProps}
+      >
+        {/* <input {...getInputProps()} /> */}
         <Outlet />
+
       </div>
     </div>
   )
 }
+
+
+/*
+
+        <form class='image-upload'>
+          <p>Upload file</p>
+          <input type="file" id="imageElem" multiple accept="image/*" onChange={(e) => handleFiles(e.files)}/>
+          <label class="button" for="imageElem">Select some files</label>
+        </form>
+*/

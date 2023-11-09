@@ -51,6 +51,11 @@ const router = createBrowserRouter([
             path: "projects/:projectId/destroy",
             errorElement: <div>Oops! There was an error.</div>,
             action: deleteAction,
+          },
+          {
+            path: "projects/:projectId/updateComment",
+            errorElement: <div>Oops! There was an error.</div>,
+            action: console.log,
           }
         ]
       }

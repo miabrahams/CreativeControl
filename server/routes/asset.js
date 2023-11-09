@@ -10,7 +10,7 @@ const sessionController = require('../controllers/sessionController');
 // const upload = multer({ dest: 'uploads/' })
 
 router.post(
-  '/:id/addImage',
+  '/:assetId/addImage',
   sessionController.validateLoginTest,
   imageFileController.upload.single('img'),
   imageFileController.loadImage,
@@ -20,18 +20,6 @@ router.post(
   }
 );
 
-
-router.post(
-  '/:userId/create',
-  sessionController.validateLoginTest,
-  imageFileController.upload.single('img'),
-  imageFileController.loadImage,
-  assetController.createAsset,
-  assetController.addImage,
-  async (req, res) => {
-    return res.status(200).contentType('text/plain').end();
-  }
-);
 
 // Get by ID
 router.get('/:id', async (req, res, next) => {
