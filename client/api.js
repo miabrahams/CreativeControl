@@ -14,7 +14,6 @@ async function cachedFetch(key) {
   }
 
   try {
-    console.log('Fetching...')
     const res = await fetch(key);
     const data = await res.json();
     reqCache[key] = data;
@@ -24,6 +23,10 @@ async function cachedFetch(key) {
     console.log('Invalid project!');
     return null;
   }
+}
+
+export function clearCache() {
+  reqCache = {};
 }
 
 async function fakeNetwork(query) {
@@ -47,6 +50,23 @@ export async function getProjects(query) {
   return data;
 }
 
+
+export async function deleteAsset(projectId, assetId) {
+  const deleteUrl = `/api/project/${projectId}/deleteAsset/${assetId}`;
+  console.log('Deletin: ', deleteUrl);
+  const res = await fetch(deleteUrl, {method: 'DELETE'});
+  // let projects = await localforage.getItem("projects");
+  // let index = projects.findIndex(project => project.id === id);
+  // if (index > -1) {
+  //   projects.splice(index, 1);
+  //   await set(projects);
+  //   return true;
+  // }
+  return res;
+}
+
+
+
 export async function createProject() {
   await fakeNetwork();
   let id = Math.random().toString(36).substring(2, 9);
@@ -65,17 +85,6 @@ export async function updateProject(id, updates) {
   Object.assign(project, updates);
   await set(projects);
   return project;
-}
-
-export async function deleteProject(id) {
-  let projects = await localforage.getItem("projects");
-  let index = projects.findIndex(project => project.id === id);
-  if (index > -1) {
-    projects.splice(index, 1);
-    await set(projects);
-    return true;
-  }
-  return false;
 }
 
 function set(projects) {

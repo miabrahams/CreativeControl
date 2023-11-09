@@ -6,7 +6,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import { updateProject, deleteProject } from '../api'
+import { updateProject, deleteAsset, clearCache } from '../api'
 
 export async function editAction({ request, params }) {
   const formData = await request.formData();
@@ -19,9 +19,12 @@ export async function editAction({ request, params }) {
 
 
 export async function deleteAction({ request, params }) {
-  await deleteProject(params.projectId);
+  console.log('DELETING: ');
+  clearCache();
+  const res = await deleteAsset(params.projectId, params.assetId);
+  console.log('Response: ', res);
   // Redirects the <Outlet /> back to the project display
-  return redirect(`/`);
+  return redirect(`/projects/${params.projectId}`);
 }
 
 

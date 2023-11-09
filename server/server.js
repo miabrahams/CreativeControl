@@ -79,19 +79,24 @@ app.get('/', (req, res) => {
 });
 
 
+const static_image_path = path.resolve(__dirname, '../static');
 app.use('/static',
-  // Control access to images
+  // Control access to images (WIP)
   sessionController.validateLoginTest,
-  express.static(path.resolve(__dirname, '../static'))
+  express.static(static_image_path)
 );
 
 
-// }
+
+const upload_image_path = path.resolve(__dirname, '../temp/image_store')
+app.use('/image_store', express.static(upload_image_path));
+
 
 /**
  * 404 handler
  */
 app.use('*', (req, res) => {
+  console.log("Unknown request: ", req.path);
   res.status(404).send('Not Found');
 });
 

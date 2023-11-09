@@ -15,18 +15,29 @@ AssetController.findAssetFromParams = async (req, res, next) => {
 
 AssetController.addImage = async (req, res, next) => {
   console.log('Adding image: ', req.params.id);
-  console.log('AssetDoc Image Files: ', assetDoc.imageFiles);
-  assetDoc.imageFiles = [...assetDoc.imageFiles, res.locals.imageDoc._id];
+  console.log('AssetDoc Image Files: ', res.locals.assetDoc.imageFiles);
+  res.locals.assetDoc.imageFiles = [...assetDoc.imageFiles, res.locals.imageDoc._id];
   await assetDoc.save();
   next();
 };
 
 AssetController.createAsset = async (req, res, next) => {
-  // NOT IMPLEMENTED //
   // Validate user:
-  const newAsset = await Asset.create({ title });
-  // Add asset to user
+  // NOT IMPLEMENTED //
+  const title = res.locals.assetTitle | '';
+  const imageFiles = res.locals.imageDoc ? [res.locals.imageDoc] : []
+  res.locals.assetDoc = await Asset.create({ title, imageFiles });
   next();
 };
+
+
+AssetController.deleteAsset = async (req, res, next) => {
+  // Validate user:
+  // NOT IMPLEMENTED //
+  const deleteResult = await Asset.deleteOne({_id: req.params.assetId});
+  console.log('Delete result: ', deleteResult);
+  next();
+};
+
 
 module.exports = AssetController;

@@ -6,6 +6,36 @@ const Project = require('../models/ProjectModel');
 const imageFileController = require('../controllers/imageFileController');
 const assetController = require('../controllers/assetController');
 const sessionController = require('../controllers/sessionController');
+const projectController = require('../controllers/projectController');
+
+
+router.post(
+  '/:projectId/addAsset',
+  sessionController.validateLoginTest,
+  imageFileController.upload.single('img'),
+  imageFileController.loadImage,
+  assetController.createAsset,
+  projectController.addAsset,
+  async (req, res) => {
+    return res.status(200).json(res.locals.assetDoc);
+  }
+);
+
+router.delete(
+  '/:projectId/deleteAsset/:assetId',
+  (req, res, next) => {
+    console.log('Deleting asset: ', req.params);
+    next();
+  },
+  sessionController.validateLoginTest,
+  projectController.removeAsset,
+  assetController.deleteAsset,
+  async (req, res) => {
+    return res.status(200).json(res.locals.assetDoc);
+  }
+);
+
+
 
 router.post(
   '/:projectId',
@@ -17,18 +47,6 @@ router.post(
   }
 );
 
-
-router.post(
-  '/:projectId/addAsset',
-  sessionController.validateLoginTest,
-  imageFileController.upload.single('img'),
-  imageFileController.loadImage,
-  assetController.createAsset,
-  assetController.addImage,
-  async (req, res) => {
-    return res.status(200).contentType('text/plain').end();
-  }
-);
 
 
 router.patch(
@@ -79,8 +97,6 @@ router.get('/:id', async (req, res) => {
         ...project.toObject(),
         assets: transformedAssets
       };
-
-      console.log('SENDING: ', transformedProject);
 
       return res.status(200).json(transformedProject);
     } else {

@@ -3,7 +3,7 @@ const ImageFileController = {};
 
 const ImageFile = require('../models/ImageFileModel');
 const multer = require('multer');
-const { file_save_path } = require('../config');
+const { file_save_path, file_serve_path } = require('../config');
 
 // Set up storage for uploaded files
 // you might also want to set some limits: https://github.com/expressjs/multer#limits
@@ -19,6 +19,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage});
 ImageFileController.upload = upload;
 ImageFileController.uploadSingle = upload.single('file');
+
 /**
  * After multer:
  *  req.file is `file`
@@ -27,7 +28,8 @@ ImageFileController.uploadSingle = upload.single('file');
 
 ImageFileController.loadImage = async (req, res, next) => {
     console.log("FILE?", req.file);
-    res.locals.imageDoc = await ImageFile.create({filename: req.file.path});
+    // console.log()
+    res.locals.imageDoc = await ImageFile.create({filename: file_serve_path + '/' + req.file.filename});
     console.log('imageDoc: ', res.locals.imageDoc);
     next();
 }

@@ -3,20 +3,19 @@ import React, { useState, useRef } from 'react';
 import {
   Form,
   useLoaderData,
-  useFetcher
+  useFetcher,
+  redirect,
+  useRevalidator
 } from "react-router-dom";
 import { FileDrop } from "react-file-drop";
 
-import { getProject, updateProject } from "../api";
+import { getProject, updateProject, clearCache } from "../api";
 
 // Will be hooked into useLoaderData in main.js
 export async function projectLoader({ params }) {
   const project = await getProject(params.projectId);
-
   // We can Throw in a loader to render a 404 element instead of an entirely invalid page.
-  if (!project) {
-    throw new Response("", { status: 404, statusText: "Not Found" });
-  }
+  if (!project) { throw new Response("", { status: 404, statusText: "Not Found" }); }
   return project;
 }
 
@@ -37,24 +36,28 @@ export async function updateAction({ request, params }) {
 export default function Project() {
   const project = useLoaderData();
   const inputRef = useRef();
-  console.log('Rendering project: ', project);
+  // console.log('Rendering project: ', project);
+  const revalidator = useRevalidator();
 
   const filePicker = () => { inputRef.current.click(); };
 
   const fileHandler = (files) => {
     const extension = files[0].name.split(".")[1]?.toLowerCase();
+    console.log("fileHandler");
     console.log(files);
 
     if (extension !== undefined) {
-      console.log('fetchin')
       const uploadForm = new FormData();
       uploadForm.append('img', files[0]);
-      fetch(`api/project/${project._id}/addAsset`,
+      fetch(`/api/project/${project._id}/addAsset`,
       {
         body: uploadForm,
         method: "post"
       }).then(res => {
         console.log('Got response: ', res)
+        clearCache();
+        // Is there a better way to do this?
+        revalidator.revalidate();
       })
     } else {
       alert("file type not supported");
@@ -73,7 +76,7 @@ export default function Project() {
             ( <i>Untitled Project</i>)
           }{" "}
         </h1>
-        { project.assets.map( data => <Asset id={data._id} data={data}/>) }
+        { project.assets.map( data => <Asset data={data} id={data._id} />) }
 
       <FileDrop onTargetClick={filePicker} onDrop={(f) => fileHandler(f)}>
         <p className="placeholder">
@@ -96,15 +99,17 @@ export default function Project() {
 
 
 // Each Asset
-function Asset({ data }) {
+function Asset({ data, projectId }) {
 
   const fetcher = useFetcher();
 
   const [commentText, setCommentText] = useState('');
 
+  /*
   React.useEffect(() => {
     console.log('Fetcher');
   }, [fetcher]);
+  */
 
   // TODO: Throttle
   const textChanged = (event) => { setCommentText(event.target.value); }
@@ -132,9 +137,9 @@ function Asset({ data }) {
           </Form>
           <Form
             method="post"
-            action="destroy"
+            action={`destroyAsset/${data._id}`}
             onSubmit={(event) => {
-              if ( !confirm( "Please confirm you want to delete this record.")) {
+              if ( !confirm( "Please confirm you want to delete this asset.")) {
                 event.preventDefault();
               }
             }}

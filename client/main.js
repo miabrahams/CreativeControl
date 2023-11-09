@@ -48,7 +48,7 @@ const router = createBrowserRouter([
             action: editAction,
           },
           {
-            path: "projects/:projectId/destroy",
+            path: "projects/:projectId/destroyAsset/:assetId",
             errorElement: <div>Oops! There was an error.</div>,
             action: deleteAction,
           },

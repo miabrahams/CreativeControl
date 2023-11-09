@@ -66,6 +66,7 @@ const config = {
     proxy: {
       '/api': 'http://localhost:3000',
       '/static': 'http://localhost:3000',
+      '/image_store': 'http://localhost:3000',
     },
   },
 }
