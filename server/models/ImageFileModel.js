@@ -8,12 +8,14 @@ const imageFileSchema = new Schema({
 
 
 // Handle file removal
+/*
 imageFileSchema.post('remove', function () {
   console.log('deleting one: ', doc)
   fs.unlink(this.filename, (err) => {
     if (err) return console.log('****ERROR: Could not unlink file!');
   });
 });
+*/
 
 
 

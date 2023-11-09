@@ -17,20 +17,23 @@ const mongoose = require('mongoose');
 const mongoURI = process.env.NODE_ENV === 'production' ? CONFIG.mongo_prod : CONFIG.mongo_dev;
 mongoose.connect(mongoURI);
 
-/* Image upload: older */
-// const imageRouter = require('./routes/image.js');
-// app.use('/image', imageRouter);
 
 
-/* Image upload: by asset */
+/**
+ * API Routes
+ */
+
+/* Image Operations */
+const imageRouter = require('./routes/image.js');
+app.use('/api/image', imageRouter);
+
+/* Asset Operations */
 const assetRouter = require('./routes/asset.js');
-app.use('/asset', assetRouter);
+app.use('/api/asset', assetRouter);
 
-// Projects
+/* Project API Operations */
 const projectRoute = require('./routes/project.js');
 app.use('/api/project', projectRoute);
-
-
 
 
 

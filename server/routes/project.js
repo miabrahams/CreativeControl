@@ -68,8 +68,20 @@ const testProject = {
 router.get('/:id', async (req, res, next) => {
   // For now: Public link, no validation required.
   // Later: allow Users to toggle public/private.
-  res.status(200).json(testProject);
 
+  console.log('AAGHH');
+  try {
+    const snakeProj = await Project.findOne({title: 'Make a Snake'}).populate('assets').exec();
+    console.log("Sending from the database!");
+    return res.status(200).json(testProject);
+  }
+  catch (err) {
+    console.log("Error: ", err);
+    res.status(404);
+  }
+
+
+  // res.status(200).json(testProject);
   /*
   const {_id} = req.body;
   const projectDoc = await Project.findById(_id);

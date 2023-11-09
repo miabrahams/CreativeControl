@@ -19,19 +19,47 @@ setTimeout( async () => {
   await Project.deleteMany({}).then(console.log);
   await Session.deleteMany({}).then(console.log);
 
-  console.log("Populating databases.");
-  const newUser = await User.create({username: 'Test', password: 'Test', displayName: 'Creator', profilePic: '', projects: []});
-  const newAsset = await Asset.create( {title: 'BalloonAsset'} );
-  const newProject = await Project.create({title: 'Balloons', assets: [newAsset._id]});
+  try {
+
+    console.log("Populating databases.");
+    const newUser = await User.create({username: 'Test', password: 'Test', displayName: 'Creator', profilePic: '', projects: []});
+    const newAsset = await Asset.create( {title: 'BalloonAsset'} );
+    const balloonProject = await Project.create({title: 'Balloons', assets: [newAsset._id]});
 
 
-  const assetDoc = await Asset.findById(newAsset._id.toString());
-  console.log('assetDoc: ', assetDoc)
-  console.log('ID: ', assetDoc._id.toString());
+    let snakeAsset1 = await Asset.create(
+      {
+        extraImageURLs: ['static/demo/00042-3158810176.jpeg'],
+        comment: 'Many papercuts later...',
+        title: 'Step 2',
+        date: new Date('11/8/2023')
+      });
+    let snakeAsset2 = await Asset.create(
+      {
+        extraImageURLs: ['static/demo/S43254_0.jpg'],
+        comment: 'Excited to start!',
+        title: 'Step 1',
+        date: new Date('10/10/2021')
+      });
 
-  await mongoose.disconnect();
+    let testProject = await Project.create({
+      title: 'Make a Snake',
+      assets: [snakeAsset1._id, snakeAsset2._id]
+    });
 
+    console.log('testProject: ', )
 
+    // const assetDoc = await Asset.findById(newAsset._id.toString());
+    // console.log('assetDoc: ', assetDoc)
+    // console.log('ID: ', assetDoc._id.toString());
+
+  }
+  catch (err) {
+    console.log('Err: ', err);
+  }
+  finally {
+    await mongoose.disconnect();
+  }
 }, 0);
 
 

@@ -65,13 +65,14 @@ export default function Project() {
 
   return (
     <div id="project">
-      <h1>
-        {project.title ?
-          ( <> <b>Project: </b>{project.title} </>) :
-          ( <i>Untitled Project</i>)
-        }{" "}
-      </h1>
-      { project.assets.map( data => <Asset id={data._id} data={data}/>) }
+
+        <h1>
+          {project.title ?
+            ( <> <b>Project: </b>{project.title} </>) :
+            ( <i>Untitled Project</i>)
+          }{" "}
+        </h1>
+        { project.assets.map( data => <Asset id={data._id} data={data}/>) }
 
       <FileDrop onTargetClick={filePicker} onDrop={(f) => fileHandler(f)}>
         <p className="placeholder">
