@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import { FileDrop } from "react-file-drop";
 
-import { getProject, updateProject, clearCache } from "../api";
+import { getProject, clearCache, updateAsset } from "../api";
 
 // Will be hooked into useLoaderData in main.js
 export async function projectLoader({ params }) {
@@ -20,17 +20,28 @@ export async function projectLoader({ params }) {
 }
 
 
-
-
-
 // Hooked into favorite
 export async function updateAction({ request, params }) {
+  console.log('Not implemented.')
+  /*
   let formData = await request.formData();
   console.log('formData: ', formData);
   return updateProject(params.projectId, {
     favorite: formData.get("favorite") === "true",
   })
+  */
 }
+
+async function updateAssetNote(projectId, actionId, notes ) {
+  // TODO: Throttle
+  console.log('updateAssetNote: ', notes);
+  await updateAsset(projectId, actionId, {notes})
+  clearCache();
+  return redirect(`/projects/${projectId}`);
+}
+
+
+
 
 // Main project container
 export default function Project() {
@@ -40,6 +51,7 @@ export default function Project() {
   const revalidator = useRevalidator();
 
   const filePicker = () => { inputRef.current.click(); };
+  console.log('Displaying project: ', project);
 
   const fileHandler = (files) => {
     const extension = files[0].name.split(".")[1]?.toLowerCase();
@@ -103,17 +115,12 @@ function Asset({ data, projectId }) {
 
   const fetcher = useFetcher();
 
-  const [commentText, setCommentText] = useState('');
-
   /*
   React.useEffect(() => {
     console.log('Fetcher');
   }, [fetcher]);
   */
 
-  // TODO: Throttle
-  const textChanged = (event) => { setCommentText(event.target.value); }
-  const comment = commentText ? commentText : data.notes;
 
 
   return (
@@ -127,12 +134,12 @@ function Asset({ data, projectId }) {
               ( <i> {data.title} </i>) :
               ( <i>Untitled</i>)
             }{" "}
-            <Favorite contact={data} />
+            {/* <Favorite contact={data} /> */}
           </h1>
         </div>
 
         <div className='editAssets evenSpacer'>
-          <Form action="edit">
+          <Form action={`editAsset/${data._id}`}>
             <button type="submit">Edit</button>
           </Form>
           <Form
@@ -156,11 +163,12 @@ function Asset({ data, projectId }) {
 
       <fetcher.Form className='commentForm'
         method='post'
-        action='updateComment'
+        // action='updateComment'
       >
         <textarea
-          value={comment}
-          onChange={textChanged}
+          defaultValue={data.notes}
+          // onChange={e => console.log('Textarea changed')}
+          onBlur={e => updateAssetNote(projectId, data._id, e.target.value)}
         />
       </fetcher.Form>
 

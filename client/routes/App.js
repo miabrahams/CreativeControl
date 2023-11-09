@@ -3,13 +3,14 @@ import {
   Outlet,
   useLoaderData,
   useNavigation,
+  redirect,
 } from 'react-router-dom';
 import ProjectSidebar from '../components/ProjectSidebar';
 
 // import {useDropzone} from 'react-dropzone'
 
 
-import {getProjects, createProject} from '../api';
+import {getProjects, createProject, clearCache} from '../api';
 
 export async function loader({ request }) {
   // Filter list of projects if there are search params.
@@ -22,9 +23,11 @@ export async function loader({ request }) {
 }
 
 // POST Form on this page is a "New" button.
-export async function action() {
+export async function createProjectAction() {
   const project = await createProject();
-  return { project };
+  clearCache();
+  console.log('new project: ', project);
+  return redirect(`/projects/${project._id}`);
 }
 
 

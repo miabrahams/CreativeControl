@@ -20,20 +20,12 @@ async function cachedFetch(key) {
     return data;
   }
   catch(err) {
-    console.log('Invalid project!');
+    console.log('Invalid project!', err);
     return null;
   }
 }
 
-export function clearCache() {
-  reqCache = {};
-}
-
-async function fakeNetwork(query) {
-  return new Promise((res) => {
-    setTimeout(res, 100)
-  });
-}
+export function clearCache() { reqCache = {}; }
 
 
 export async function getProject(id) {
@@ -55,37 +47,37 @@ export async function deleteAsset(projectId, assetId) {
   const deleteUrl = `/api/project/${projectId}/deleteAsset/${assetId}`;
   console.log('Deletin: ', deleteUrl);
   const res = await fetch(deleteUrl, {method: 'DELETE'});
-  // let projects = await localforage.getItem("projects");
-  // let index = projects.findIndex(project => project.id === id);
-  // if (index > -1) {
-  //   projects.splice(index, 1);
-  //   await set(projects);
-  //   return true;
-  // }
   return res;
 }
 
 
 
-export async function createProject() {
-  await fakeNetwork();
-  let id = Math.random().toString(36).substring(2, 9);
-  let project = { id, createdAt: Date.now() };
-  let projects = await getProjects();
-  projects.unshift(project);
-  await set(projects);
-  return project;
+export async function updateAsset(projectId, assetId, updates) {
+  console.log('Got updates: ', updates);
+  const patchUrl = `/api/project/${projectId}/editAsset/${assetId}`;
+  const res = await fetch(patchUrl,
+    {
+      headers: { "Content-Type": "application/json", },
+      method: 'PATCH',
+      body: JSON.stringify(updates)
+  });
+  console.log('Result: ', res);
+  return res;
 }
 
-export async function updateProject(id, updates) {
-  await fakeNetwork();
-  let projects = await localforage.getItem("projects");
-  let project = projects.find(project => project.id === id);
-  if (!project) throw new Error("No project found for", id);
-  Object.assign(project, updates);
-  await set(projects);
-  return project;
+export async function createProject() {
+  const res = await fetch('/api/project/create',
+    {
+      headers: { "Content-Type": "application/json", },
+      method: 'POST',
+      body: JSON.stringify({title: ''})
+  });
+  console.log('Create Result: ', res);
+  return res;
 }
+
+
+
 
 function set(projects) {
   return localforage.setItem("projects", projects);

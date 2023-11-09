@@ -40,4 +40,12 @@ AssetController.deleteAsset = async (req, res, next) => {
 };
 
 
+AssetController.patchAsset = async (req, res, next) => {
+  console.log('Updates: ', req.body);
+  const editResult = await Asset.updateOne({_id: req.params.assetId}, req.body);
+  console.log('Edit result: ', editResult);
+  next();
+};
+
+
 module.exports = AssetController;

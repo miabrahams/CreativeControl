@@ -8,10 +8,11 @@ console.log('Booting!')
 // import styles from './sass/app.scss';
 import styles from './sass/router_demo.scss';
 
-import App, { loader as appLoader, action as createAction } from './routes/App';
+import App, { loader as appLoader, createProjectAction } from './routes/App';
 import ErrorPage from './routes/ErrorPage'
 import Project, { projectLoader, updateAction } from './routes/Project'
-import EditProject, { editAction, deleteAction } from './routes/EditProject';
+import EditProject from './routes/EditProject';
+import EditAsset, { editAction, deleteAction } from './routes/EditAsset';
 import Index from './routes/Index';
 
 import {
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
     loader: appLoader,
-    action: createAction,
+    action: createProjectAction,
     children: [
       {
         // Add error element for all children
@@ -42,8 +43,8 @@ const router = createBrowserRouter([
             action: updateAction,
           },
           {
-            path: "projects/:projectId/edit",
-            element: <EditProject />,
+            path: "projects/:projectId/editAsset/:assetId",
+            element: <EditAsset />,
             loader: projectLoader,
             action: editAction,
           },
@@ -53,7 +54,7 @@ const router = createBrowserRouter([
             action: deleteAction,
           },
           {
-            path: "projects/:projectId/updateComment",
+            path: "projects/:projectId/updateAsset/:assetId",
             errorElement: <div>Oops! There was an error.</div>,
             action: console.log,
           }

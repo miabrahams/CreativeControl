@@ -8,23 +8,25 @@ import {
 
 import { updateProject, deleteAsset, clearCache } from '../api'
 
-export async function editAction({ request, params }) {
-  const formData = await request.formData();
-  // Collects form elements into a Javascript object
-  const updates = Object.fromEntries(formData);
-  await updateProject(params.projectId, updates);
-  // Redirects the <Outlet /> back to the project display
-  return redirect(`/projects/${params.projectId}`);
+export async function editProject({ request, params }) {
+  // const formData = await request.formData();
+  // // Collects form elements into a Javascript object
+  // const updates = Object.fromEntries(formData);
+  // await updateProject(params.projectId, updates);
+  // // Redirects the <Outlet /> back to the project display
+  // return redirect(`/projects/${params.projectId}`);
+  return false;
 }
 
 
-export async function deleteAction({ request, params }) {
-  console.log('DELETING: ');
-  clearCache();
-  const res = await deleteAsset(params.projectId, params.assetId);
-  console.log('Response: ', res);
-  // Redirects the <Outlet /> back to the project display
-  return redirect(`/projects/${params.projectId}`);
+export async function deleteProject({ request, params }) {
+  // console.log('DELETING: ');
+  // clearCache();
+  // const res = await deleteAsset(params.projectId, params.assetId);
+  // console.log('Response: ', res);
+  // // Redirects the <Outlet /> back to the project display
+  // return redirect(`/projects/${params.projectId}`);
+  return false;
 }
 
 

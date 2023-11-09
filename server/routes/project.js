@@ -36,14 +36,35 @@ router.delete(
 );
 
 
+router.patch(
+  '/:projectId/editAsset/:assetId',
+  (req, res, next) => {
+    console.log('Patching asset: ', req.params);
+    console.log('body: ', req.body);
+    next();
+  },
+  sessionController.validateLoginTest,
+  assetController.patchAsset,
+  async (req, res) => {
+    return res.status(200).json(res.locals.assetDoc);
+  }
+);
+
+
 
 router.post(
-  '/:projectId',
-  // Validation
+  '/create',
   async function (req, res) {
-    const {title} = req.body;
-    const projectDoc = Project.create({title});
-    return res.status(200).contentType('text/plain').end('Project created!');
+    try {
+      const title = req.body.title || '';
+      const projectDoc = await Project.create({title});
+      console.log('Creating project: ', projectDoc.toJSON())
+      return res.status(200).send(projectDoc.toJSON());
+    }
+    catch(err) {
+      console.log("Couldn't create project: ", err)
+      return res.status(500).send("Couldn't create project: ", err)
+    }
   }
 );
 
