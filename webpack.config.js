@@ -8,11 +8,14 @@ console.log('Production mode: ', process.env.NODE_ENV);
 console.log('path: ', __dirname);
 
 const config = {
-  entry: './client/main.js',
+  entry: {
+    bundle: './client/main.js',
+    login: './client/login.js'
+  },
   output: {
     path: path.join(__dirname, '/build'),
     publicPath: '/',
-    filename: 'bundle.js',
+    filename: '[name].js',
   },
 
   plugins: [

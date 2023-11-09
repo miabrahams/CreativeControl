@@ -16,7 +16,7 @@ async function cachedFetch(key) {
   try {
     const res = await fetch(key);
     const data = await res.json();
-    reqCache[key] = data;
+    // reqCache[key] = data;
     return data;
   }
   catch(err) {

@@ -38,12 +38,6 @@ const router = createBrowserRouter([
             element: <Index />
           },
           {
-            path: "projects/:projectId",
-            element: <Project />,
-            loader: projectLoader,
-            action: updateAction,
-          },
-          {
             path: "projects/:projectId/editAsset/:assetId",
             element: <EditAsset />,
             loader: projectLoader,
@@ -55,10 +49,17 @@ const router = createBrowserRouter([
             action: deleteAction,
           },
           {
-            path: "projects/:projectId/updateAsset/:assetId",
-            errorElement: <div>Oops! There was an error.</div>,
-            action: console.log,
-          }
+            exact : true,
+            path: "projects/:projectId",
+            element: <Project />,
+            loader: projectLoader,
+            action: updateAction,
+          },
+          // {
+          //   path: "projects/:projectId/updateAsset/:assetId",
+          //   errorElement: <div>Oops! There was an error.</div>,
+          //   action: console.log,
+          // }
         ]
       }
     ]
