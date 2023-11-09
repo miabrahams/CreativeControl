@@ -6,7 +6,7 @@ console.log('Booting!')
 
 
 // import styles from './sass/app.scss';
-import styles from './sass/router_demo.css';
+import styles from './sass/router_demo.scss';
 
 import App, { loader as appLoader, action as createAction } from './routes/App';
 import ErrorPage from './routes/ErrorPage'
