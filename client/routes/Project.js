@@ -1,15 +1,16 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Form,
   useLoaderData,
   useFetcher,
   redirect,
-  useRevalidator
+  useRevalidator,
 } from "react-router-dom";
-import { FileDrop } from "react-file-drop";
 import Popup from 'reactjs-popup';
 import TitleBar from '../components/TitleBar';
+import CommentTextArea from '../components/CommentTextArea';
+import AddAsset from '../components/AddAsset';
 
 
 import { getProject, clearCache, updateAsset } from "../api";
@@ -37,83 +38,59 @@ async function updateAssetNote(projectId, actionId, notes ) {
 }
 
 
+let idNum = 0;
 
 
 // Main project container
 export default function Project() {
   const project = useLoaderData();
-  const inputRef = useRef();
   const revalidator = useRevalidator();
 
-  const filePicker = () => { inputRef.current.click(); };
-  console.log('Displaying project: ', project);
-
-  const fileHandler = (files) => {
-    const extension = files[0].name.split(".")[1]?.toLowerCase();
-    console.log("fileHandler");
-    console.log(files);
-
-    if (extension !== undefined) {
-      const uploadForm = new FormData();
-      uploadForm.append('img', files[0]);
-      uploadForm.append('title', `Step ${project.assets.length+1}`);
-      // Todo: put in api.js
-      fetch(`/api/project/${project._id}/addAsset`,
-      {
-        method: "post",
-        body: uploadForm
-      }).then(res => {
-        console.log('Got response: ', res)
-        clearCache();
-        // Is there a better way to do this?
-        revalidator.revalidate();
-      })
-    } else {
-      alert("file type not supported");
-    }
-  };
+  // console.log('Displaying project: ', project);
+  useEffect(() => {
+    console.log('Project useEffect')
+  }, [project])
 
 
 
+  const assets = []
+  for (let i = 0; i < project.assets.length; i++) {
+    console.log(i);
+    assets.push((<Asset project={project} index={i} id={project.assets[i]._id} />));
+  }
 
   return (
     <div id="project">
-
-        <TitleBar project={project} revalidator={revalidator}/>
-
-        { project.assets.map( data => <Asset data={data} id={data._id} />) }
-
-      <FileDrop onTargetClick={filePicker} onDrop={(f) => fileHandler(f)}>
-        <p className="placeholder">
-          Add New Asset <br /> OR <span>BROWSE</span>
-        </p>
-        <input
-          accept=".png, .jpg, .jpeg"
-          value=""
-          style={{ visibility: "hidden", opacity: 0 }}
-          ref={inputRef}
-          multiple="multiple"
-          type="file"
-          onChange={(e) => fileHandler(e.target.files)}
-        />
-      </FileDrop>
-
+      <TitleBar project={project} revalidator={revalidator}/>
+      {assets}
+      <AddAsset project={project} reavlidator={revalidator} />
     </div>
   );
 }
 
 
 // Each Asset
-function Asset({ data, projectId }) {
+function Asset({project, index}) {
 
-  // const fetcher = useFetcher();
-  console.log('Asset data: ', data);
+  const data = project.assets[index];
+  // const [noteContent, setNoteContent] = useState(data.notes);
 
-  /*
-  React.useEffect(() => {
-    console.log('Fetcher');
-  }, [fetcher]);
-  */
+
+  // useEffect(() => {
+  //   console.log('Setting note Content: ', data.notes);
+  //   setNoteContent(project.assets[index].notes);
+  // }, project);
+
+  // function changeMyText(e)
+  //   {
+  //     console.log("CHANGE");
+  //     e.target.value = data.notes;
+  //   }
+
+  // console.log('Rendering ', noteContent);
+  // console.log('ASSET NOTE CONTENT: ', noteContent);
+  // console.log('ASSET DATA NOTES  : ', data.notes);
+
   return (
     <article className='asset'>
       <div className='assetHead'>
@@ -146,6 +123,7 @@ function Asset({ data, projectId }) {
         </div>
       </div>
 
+
       <Popup modal trigger=
         {
           <div>
@@ -155,30 +133,34 @@ function Asset({ data, projectId }) {
           <img src={'/' + data.imageUrls[0]} className='popup-image' />
       </Popup>
 
+      {/* <CommentTextArea data={data} projectId={projectId} updateAssetNote={updateAssetNote} /> */}
+
       <Form className='commentForm'
         method='post'
-        // action='updateComment'
+        id={"form_" +data._id}
+        action='updateComment'
       >
         <textarea
-          defaultValue={data.notes}
-          // onChange={e => console.log('Textarea changed')}
-          onBlur={e => updateAssetNote(projectId, data._id, e.target.value)}
+          id = {data._id + "_textarea"}
+          // value={noteContent}
+          value={data.notes}
+          // defaultValue={data.notes}
+          onBlur={e => updateAssetNote(project._id, data._id, e.target.value)}
+          // onChange = {e => { setNoteContent(e.target.value)} }
+          onChange = {e => { data.notes = (e.target.value)} }
         />
       </Form>
 
+
+      {data.notes}
+
       {data.twitter && (
         <p>
-          <a
-            target="_blank"
-            href={`https://twitter.com/${data.twitter}`}
-          >
+          <a target="_blank" href={`https://twitter.com/${data.twitter}`} >
             {data.twitter}
           </a>
         </p>
       )}
-
-
-
     </article>
   )
 };

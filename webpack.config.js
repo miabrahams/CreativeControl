@@ -10,7 +10,7 @@ console.log('path: ', __dirname);
 const config = {
   entry: {
     bundle: './client/main.js',
-    login: './client/login.js'
+    // login: './client/login.js'
   },
   output: {
     path: path.join(__dirname, '/build'),

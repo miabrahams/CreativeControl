@@ -29,8 +29,10 @@ export function clearCache() { reqCache = {}; }
 
 
 export async function getProject(id) {
-  console.log('Getting project')
-  const data = await cachedFetch(`/api/project/${id}`);
+  // console.log('Getting project')
+  // const data = await cachedFetch(`/api/project/${id}`);
+  const res = await fetch(`/api/project/${id}`);
+  const data = await res.json();
   return data;
 }
 
